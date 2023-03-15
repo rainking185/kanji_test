@@ -2,14 +2,17 @@ import sys
 
 from random import shuffle
 from datetime import datetime
-from question_utils import select_questions, update_questions
+from question_utils import select_questions, update_questions, split_questions
 
 if __name__ == '__main__':
 
     try:
         num = int(sys.argv[1])
+        if num == 0:
+            split_questions()
+            quit()
     except IndexError:
-        num = 50
+        num = 100
 
     selected_questions = select_questions(num)
     score = 0
@@ -56,7 +59,6 @@ if __name__ == '__main__':
                 else:
                     print(f"違います。正解は\"{kana_display}\"です。")
         print("終了！お疲れさまでした。")
-
 
     except KeyboardInterrupt:
         print("バイバイ。")

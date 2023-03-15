@@ -7,7 +7,7 @@ QUESTIONS_FILEPATH = "questions.json"
 if not os.path.exists(QUESTIONS_FILEPATH):
     write_json(QUESTIONS_FILEPATH, {})
 QUESTIONS = read_json(QUESTIONS_FILEPATH)
-THRESHOLD = 0.4
+THRESHOLD = 0.3
 
 
 def split_old_questions_with_threshold(questions: dict) -> (dict, dict):
@@ -52,7 +52,7 @@ def select_questions(num=10) -> dict:
             i += 1
             if i == num:
                 break
-        return selected_questions
+        return shuffle_json(selected_questions)
     else:
         selected_questions = questions2revise
     extra = num - len(questions2revise.keys())
@@ -63,7 +63,7 @@ def select_questions(num=10) -> dict:
             i += 1
             if i == extra:
                 break
-        return selected_questions
+        return shuffle_json(selected_questions)
     else:
         selected_questions.update(new_questions)
     extra -= len(new_questions.keys())
@@ -74,7 +74,7 @@ def select_questions(num=10) -> dict:
             i += 1
             if i == extra:
                 break
-        return selected_questions
+        return shuffle_json(selected_questions)
     else:
         selected_questions.update(ok_questions)
     return shuffle_json(selected_questions)
