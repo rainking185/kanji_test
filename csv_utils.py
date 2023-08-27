@@ -1,14 +1,14 @@
 import csv
 
 
-def write_csv(filepath: str, content: list):
-    with open(filepath, "w", newline="", encoding="UTF-8") as outfile:
+def write_csv(filepath: str, content: list, encoding="UTF-8"):
+    with open(filepath, "w", newline="", encoding=encoding) as outfile:
         writer = csv.writer(outfile)
         writer.writerows(content)
 
 
-def read_csv(filepath: str) -> list:
-    with open(filepath, "r", newline="", encoding="UTF-8") as infile:
+def read_csv(filepath: str, encoding="UTF-8") -> list:
+    with open(filepath, "r", newline="", encoding=encoding) as infile:
         return list(csv.reader(infile))
 
 

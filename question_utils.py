@@ -3,10 +3,15 @@ from datetime import datetime
 from json_utils import read_json, write_json, shuffle_json
 
 QUESTIONS_FILEPATH = "questions.json"
+JLPT_FILEPATH = "jlpt.json"
 
 if not os.path.exists(QUESTIONS_FILEPATH):
     write_json(QUESTIONS_FILEPATH, {})
 QUESTIONS = read_json(QUESTIONS_FILEPATH)
+
+if not os.path.exists(JLPT_FILEPATH):
+    write_json(JLPT_FILEPATH, {})
+JLPT = read_json(JLPT_FILEPATH)
 THRESHOLD = 0.3
 
 
@@ -28,22 +33,22 @@ def split_old_questions_with_threshold(questions: dict) -> (dict, dict):
     return over_threshold, under_threshold
 
 
-def split_questions() -> (dict, dict, dict):
+def split_questions(jlpt=False) -> (dict, dict, dict):
     old_questions = {}
     new_questions = {}
-    for _id in QUESTIONS:
-        if QUESTIONS[_id]["attempt"] > 0:
-            old_questions[_id] = QUESTIONS[_id]
+    for _id in (QUESTIONS if not jlpt else JLPT):
+        if (QUESTIONS if not jlpt else JLPT)[_id]["attempt"] > 0:
+            old_questions[_id] = (QUESTIONS if not jlpt else JLPT)[_id]
         else:
-            new_questions[_id] = QUESTIONS[_id]
+            new_questions[_id] = (QUESTIONS if not jlpt else JLPT)[_id]
     questions2revise, ok_questions = split_old_questions_with_threshold(old_questions)
     new_questions = shuffle_json(new_questions)
     print(f"Found {len(new_questions.keys())} new questions.")
     return questions2revise, new_questions, ok_questions
 
 
-def select_questions(num=10) -> dict:
-    questions2revise, new_questions, ok_questions = split_questions()
+def select_questions(num=10, jlpt=False) -> dict:
+    questions2revise, new_questions, ok_questions = split_questions(jlpt)
     selected_questions = {}
     if len(questions2revise.keys()) >= num:
         i = 0
@@ -80,24 +85,43 @@ def select_questions(num=10) -> dict:
     return shuffle_json(selected_questions)
 
 
-def get_ids() -> list:
-    return list(QUESTIONS.keys())
+def get_questions(jlpt=False) -> list:
+    return list((QUESTIONS if not jlpt else JLPT).keys())
 
 
-def merge_questions(imported_questions: dict):
-    global QUESTIONS
-    ids = get_ids()
-    for _id in imported_questions:
-        if _id not in ids:
-            QUESTIONS[_id] = imported_questions[_id]
+def merge_questions(imported_questions: dict, jlpt=False):
+    global QUESTIONS, JLPT
+    questions = get_questions()
+    for question in imported_questions:
+        if question not in questions:
+            (QUESTIONS if not jlpt else JLPT)[question] = imported_questions[question]
         else:
-            QUESTIONS[_id]["batch"].extend(imported_questions[_id]["batch"])
-            for kana in imported_questions[_id]:
-                if kana not in QUESTIONS[_id]["kana"]:
-                    QUESTIONS[_id]["kana"].append(kana)
-    write_json(QUESTIONS_FILEPATH, QUESTIONS)
+            (QUESTIONS if not jlpt else JLPT)[question]["tags"].extend(imported_questions[question]["tags"])
+            for answer in imported_questions[question]["answers"]:
+                if answer not in (QUESTIONS if not jlpt else JLPT)[question]["answers"]:
+                    (QUESTIONS if not jlpt else JLPT)[question]["answers"].append(answer)
+    write_json(QUESTIONS_FILEPATH if not jlpt else JLPT_FILEPATH, QUESTIONS if not jlpt else JLPT)
 
 
-def update_questions(selected_questions: dict):
-    QUESTIONS.update(selected_questions)
-    write_json(QUESTIONS_FILEPATH, QUESTIONS)
+def update_questions(selected_questions: dict, jlpt=False):
+    (QUESTIONS if not jlpt else JLPT).update(selected_questions)
+    write_json(QUESTIONS_FILEPATH if not jlpt else JLPT_FILEPATH, QUESTIONS if not jlpt else JLPT)
+
+
+def add_question(new_question: str, t: str, answers: list, tags: list):
+    global QUESTIONS
+    questions = get_questions()
+    if new_question not in questions:
+        QUESTIONS[new_question] = {
+            "type": t,
+            "answers": answers,
+            "tags": tags,
+            "attempt": 0,
+            "false": 0,
+            "last_attempt": "",
+        }
+    else:
+        QUESTIONS[new_question]["tags"].extend(tags)
+        for answer in answers:
+            if answer not in answers:
+                QUESTIONS[new_question]["answers"].append(answer)
