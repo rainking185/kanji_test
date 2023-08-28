@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 for j, option in enumerate(options):
                     print(f"{j+1}. {option}")
             attempt = ""
-            while attempt == "":
+            while attempt == "" or (detail["type"] == "mcq" and attempt not in [*"1234"]):
                 attempt = input()
             detail["attempt"] += 1
             detail["last_attempt"] = datetime.today().strftime('%Y/%m/%d')
@@ -74,7 +74,7 @@ if __name__ == '__main__':
                         for j, option in enumerate(options):
                             print(f"{j + 1}. {option}")
                     attempt = ""
-                    while attempt == "":
+                    while attempt == "" or (detail["type"] == "mcq" and attempt not in [*"1234"]):
                         attempt = input()
                     if detail["type"] == "mcq":
                         attempt = options[int(attempt) - 1]
