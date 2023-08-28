@@ -12,17 +12,18 @@ QUESTIONS = read_json(QUESTIONS_FILEPATH)
 if not os.path.exists(JLPT_FILEPATH):
     write_json(JLPT_FILEPATH, {})
 JLPT = read_json(JLPT_FILEPATH)
-THRESHOLD = 0.3
+THRESHOLD = 0.5
 
 
-def split_old_questions_with_threshold(questions: dict) -> (dict, dict):
+def split_old_questions_with_threshold(questions: dict, jlpt=False) -> (dict, dict):
     rate_table = []
     over_threshold = {}
     under_threshold = {}
     for _id in questions:
         rate = questions[_id]["false"] / questions[_id]["attempt"]
         day_diff = (datetime.today() - datetime.strptime(questions[_id]["last_attempt"], "%Y/%m/%d")).days
-        if rate <= THRESHOLD and day_diff < pow(questions[_id]["attempt"], 2):
+        if rate <= THRESHOLD and (
+        day_diff < questions[_id]["attempt"] * 60 if jlpt else day_diff < pow(questions[_id]["attempt"], 2)):
             under_threshold[_id] = questions[_id]
         else:
             over_threshold[_id] = questions[_id]
@@ -41,7 +42,7 @@ def split_questions(jlpt=False) -> (dict, dict, dict):
             old_questions[_id] = (QUESTIONS if not jlpt else JLPT)[_id]
         else:
             new_questions[_id] = (QUESTIONS if not jlpt else JLPT)[_id]
-    questions2revise, ok_questions = split_old_questions_with_threshold(old_questions)
+    questions2revise, ok_questions = split_old_questions_with_threshold(old_questions, jlpt)
     new_questions = shuffle_json(new_questions)
     print(f"Found {len(new_questions.keys())} new questions.")
     return questions2revise, new_questions, ok_questions
