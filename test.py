@@ -34,7 +34,7 @@ if __name__ == '__main__':
                 options = detail["options"]
                 shuffle(options)
                 for j, option in enumerate(options):
-                    print(f"{j+1}. {option}")
+                    print(f"{j + 1}. {option}")
             attempt = ""
             while attempt == "" or (detail["type"] == "mcq" and attempt not in [*"1234"]):
                 attempt = input()
