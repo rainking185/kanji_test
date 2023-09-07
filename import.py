@@ -26,6 +26,7 @@ def prepare_data(data: list, batch="", has_heading=True) -> dict:
                     "attempt": 0,
                     "false": 0,
                     "last_attempt": "",
+                    "last_false": False
                 }
         else:
             vocabs = row[3:]
@@ -42,6 +43,7 @@ def prepare_data(data: list, batch="", has_heading=True) -> dict:
                         "attempt": 0,
                         "false": 0,
                         "last_attempt": "",
+                        "last_false": False
                     }
     return all_questions
 
@@ -64,6 +66,7 @@ def import_jlpt(filepath: str):
             "attempt": 0,
             "false": 0,
             "last_attempt": "",
+            "last_false": False
         }
     merge_questions(all_questions, jlpt=True)
 

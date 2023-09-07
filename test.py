@@ -44,9 +44,11 @@ if __name__ == '__main__':
                 attempt = options[int(attempt) - 1]
             if attempt in answers:
                 score += 1
+                detail["last_false"] = False
                 print("正解！")
             else:
                 detail["false"] += 1
+                detail["last_false"] = True
                 wrong_questions.append(question)
                 print(f"違います。正解は\"{answers_display}\"です。")
 

@@ -22,8 +22,8 @@ def split_old_questions_with_threshold(questions: dict, jlpt=False) -> (dict, di
     for _id in questions:
         rate = questions[_id]["false"] / questions[_id]["attempt"]
         day_diff = (datetime.today() - datetime.strptime(questions[_id]["last_attempt"], "%Y/%m/%d")).days
-        if rate <= THRESHOLD and (
-        day_diff < questions[_id]["attempt"] * 60 if jlpt else day_diff < pow(questions[_id]["attempt"], 2)):
+        if rate <= THRESHOLD and not questions[_id]["last_false"] and (
+                day_diff < questions[_id]["attempt"] * 60 if jlpt else day_diff < pow(questions[_id]["attempt"], 2)):
             under_threshold[_id] = questions[_id]
         else:
             over_threshold[_id] = questions[_id]
@@ -120,6 +120,7 @@ def add_question(new_question: str, t: str, answers: list, tags: list):
             "attempt": 0,
             "false": 0,
             "last_attempt": "",
+            "last_false": False
         }
     else:
         QUESTIONS[new_question]["tags"].extend(tags)
