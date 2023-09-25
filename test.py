@@ -4,6 +4,8 @@ from random import shuffle
 from datetime import datetime
 from question_utils import select_questions, update_questions, split_questions
 
+sys.stdout.reconfigure(encoding='utf-8')
+
 if __name__ == '__main__':
     take_jlpt = False
     try:
