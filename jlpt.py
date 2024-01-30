@@ -9,15 +9,15 @@ O_DAN = ["お", "こ", "そ", "と", "の", "ほ", "も", "よ", "ろ", "を", "
 HIRAGANA_AND_NUMBERS = A_DAN + I_DAN + U_DAN + E_DAN + O_DAN + ["ん"] + [*"0123456789"]
 
 # data = read_csv("jlpt_grammar.csv", encoding="utf-8-sig")
-# data = [[r[2], r[6]] for r in data[1:] if "\n" in r[6]]
+# data = [[r[3], r[2]] for r in data[1:] if "\n" in r[2]]
 
-# data = read_csv("jlpt_grammar_vocab.csv", encoding="utf-8-sig")
-# data = [[r[2], r[4]] for r in data[1:] if "\n" in r[4]]
+# data = read_csv("jlpt_vocab.csv", encoding="utf-8-sig")
+# data = [[r[3], r[2]] for r in data[1:] if "\n" in r[2]]
 
-data = read_csv("jlpy_kanji.csv", encoding="utf-8-sig")
-data = [[r[2], r[4], r[5]] for r in data[1:] if "\n" in r[4]]
+data = read_csv("jlpt_kanji.csv", encoding="utf-8-sig")
+data = [[r[2], r[4], r[5]] for r in data[1:] if "\n" in r[4] or r[5] != ""]
 
-_type = "kanji"
+_type = "kanji"  # goi | grammar | kanji
 
 questions = {}
 
@@ -70,21 +70,26 @@ def process_question(_t: str, _id: str, t: str, u: str):
 
 
 if __name__ == "__main__":
+    q = ""
     for row in data:
         page = row[0]
         text = row[1]
         if is_answer(text):
             process_answer(page, text)
         else:
+            if _type == "kanji" and len(text.split(". ")) < 2:
+                q = text
+                continue
             underline = ""
             if _type == "kanji":
                 underline = row[2]
                 if underline == "":
-                    raise ValueError
+                    underline = text.split("\n")[0].split(". ")[1]
+                    text = "\n".join([". ".join([text.split(". ")[0], q])] + text.split("\n")[1:])
             question_id = get_question_id(page, text)
             if len(question_id) > 8:
                 raise ValueError
             process_question(_type, question_id, text, underline)
     export = [[value["question"]] + value["options"] + value["answer"] + [value["type"], value["level"], value["id"]]
               for value in questions.values()]
-    write_csv("n5_kanji.csv", export, encoding="utf-8-sig")
+    write_csv("jlpt_n3_kanji.csv", export, encoding="utf-8-sig")

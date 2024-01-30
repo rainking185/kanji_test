@@ -25,7 +25,7 @@ def prepare_data(data: list, batch="", has_heading=True) -> dict:
                     "tags": [batch],
                     "attempt": 0,
                     "false": 0,
-                    "last_attempt": "",
+                    "attempts_logs": [],
                     "last_false": False
                 }
         else:
@@ -42,7 +42,7 @@ def prepare_data(data: list, batch="", has_heading=True) -> dict:
                         "tags": [batch],
                         "attempt": 0,
                         "false": 0,
-                        "last_attempt": "",
+                        "attempts_logs": [],
                         "last_false": False
                     }
     return all_questions
@@ -65,7 +65,7 @@ def import_jlpt(filepath: str):
             "tags": row[6:],
             "attempt": 0,
             "false": 0,
-            "last_attempt": "",
+            "attempts_logs": [],
             "last_false": False
         }
     merge_questions(all_questions, jlpt=True)
@@ -73,6 +73,6 @@ def import_jlpt(filepath: str):
 
 if __name__ == "__main__":
     # import_kanji(sys.argv[1])
-    import_jlpt("jlpt_n5_kanji.csv")
-    import_jlpt("jlpt_n5_grammar.csv")
-    import_jlpt("jlpt_n5_vocab.csv")
+    import_jlpt("jlpt_n4_kanji.csv")
+    import_jlpt("jlpt_n4_grammar.csv")
+    import_jlpt("jlpt_n4_vocab.csv")

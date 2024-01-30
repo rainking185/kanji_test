@@ -21,9 +21,10 @@ def split_old_questions_with_threshold(questions: dict, jlpt=False) -> (dict, di
     under_threshold = {}
     for _id in questions:
         rate = questions[_id]["false"] / questions[_id]["attempt"]
-        day_diff = (datetime.today() - datetime.strptime(questions[_id]["last_attempt"], "%Y/%m/%d")).days
-        if rate <= THRESHOLD and not questions[_id]["last_false"] and (
-                day_diff < questions[_id]["attempt"] * 60 if jlpt else day_diff < pow(questions[_id]["attempt"], 2)):
+        last_attempt = questions[_id]["attempts_logs"][-1]
+        day_diff = (datetime.today() - datetime.strptime(last_attempt, "%Y/%m/%d")).days
+        if questions[_id]["attempt"] >= pow(2 if jlpt else 3, questions[_id]["false"] + 1) or (rate <= THRESHOLD and not questions[_id]["last_false"] and (
+                day_diff < questions[_id]["attempt"] * 60 if jlpt else day_diff < pow(questions[_id]["attempt"], 2))):
             under_threshold[_id] = questions[_id]
         else:
             over_threshold[_id] = questions[_id]
@@ -119,11 +120,27 @@ def add_question(new_question: str, t: str, answers: list, tags: list):
             "tags": tags,
             "attempt": 0,
             "false": 0,
-            "last_attempt": "",
+            "attempts_logs": [],
             "last_false": False
         }
     else:
-        QUESTIONS[new_question]["tags"].extend(tags)
+        for tag in tags:
+            if tag not in QUESTIONS[new_question]["tags"]:
+                QUESTIONS[new_question]["tags"].append(tags)
         for answer in answers:
-            if answer not in answers:
+            if answer not in QUESTIONS[new_question]["answers"]:
                 QUESTIONS[new_question]["answers"].append(answer)
+    update_questions(QUESTIONS)
+
+
+def last_attempt_to_list():
+    for q in QUESTIONS.keys():
+        QUESTIONS[q]["attempts_logs"] = [QUESTIONS[q]["last_attempt"]]
+    for q in JLPT.keys():
+        JLPT[q]["attempts_logs"] = [JLPT[q]["last_attempt"]]
+    write_json(QUESTIONS_FILEPATH, QUESTIONS)
+    write_json(JLPT_FILEPATH, JLPT)
+    
+
+if __name__ == "__main__":
+    last_attempt_to_list()

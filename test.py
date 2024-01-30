@@ -41,7 +41,7 @@ if __name__ == '__main__':
             while attempt == "" or (detail["type"] == "mcq" and attempt not in [*"1234"]):
                 attempt = input()
             detail["attempt"] += 1
-            detail["last_attempt"] = datetime.today().strftime('%Y/%m/%d')
+            detail["attempts_logs"].append(datetime.today().strftime('%Y/%m/%d'))
             if detail["type"] == "mcq":
                 attempt = options[int(attempt) - 1]
             if attempt in answers:
