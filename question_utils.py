@@ -21,9 +21,10 @@ def split_old_questions_with_threshold(questions: dict, jlpt=False) -> (dict, di
     under_threshold = {}
     for _id in questions:
         rate = questions[_id]["false"] / questions[_id]["attempt"]
-        last_attempt = questions[_id]["attempts_logs"][-1]
-        day_diff = (datetime.today() - datetime.strptime(last_attempt, "%Y/%m/%d")).days
-        if questions[_id]["attempt"] >= pow(2 if jlpt else 3, questions[_id]["false"] + 1) or (rate <= THRESHOLD and not questions[_id]["last_false"] and (
+        last_attempt = questions[_id]["attempt_logs"][-1]
+        [last_attempt_date, last_true] = last_attempt
+        day_diff = (datetime.today() - datetime.strptime(last_attempt_date, "%Y/%m/%d")).days
+        if questions[_id]["attempt"] >= pow(2 if jlpt else 3, questions[_id]["false"] + 1) or (rate <= THRESHOLD and last_true and (
                 day_diff < questions[_id]["attempt"] * 60 if jlpt else day_diff < pow(questions[_id]["attempt"], 2))):
             under_threshold[_id] = questions[_id]
         else:
@@ -120,8 +121,7 @@ def add_question(new_question: str, t: str, answers: list, tags: list):
             "tags": tags,
             "attempt": 0,
             "false": 0,
-            "attempts_logs": [],
-            "last_false": False
+            "attempt_logs": []
         }
     else:
         for tag in tags:
@@ -133,14 +133,15 @@ def add_question(new_question: str, t: str, answers: list, tags: list):
     update_questions(QUESTIONS)
 
 
-def last_attempt_to_list():
-    for q in QUESTIONS.keys():
-        QUESTIONS[q]["attempts_logs"] = [QUESTIONS[q]["last_attempt"]]
-    for q in JLPT.keys():
-        JLPT[q]["attempts_logs"] = [JLPT[q]["last_attempt"]]
-    write_json(QUESTIONS_FILEPATH, QUESTIONS)
-    write_json(JLPT_FILEPATH, JLPT)
-    
-
 if __name__ == "__main__":
-    last_attempt_to_list()
+    for q in JLPT.keys():
+        attempts = len(JLPT[q]["attempt_logs"])
+        if attempts > 0:
+            new_logs = []
+            for i, log in enumerate(JLPT[q]["attempt_logs"]):
+                if i == attempts - 1:
+                    new_logs.append([log, not JLPT[q]["last_false"]])
+                else:
+                    new_logs.append([log, JLPT[q]["false"] - (1 if JLPT[q]["last_false"] else 0) < 1])
+            JLPT[q]["attempt_logs"] = new_logs
+    write_json(JLPT_FILEPATH, JLPT)

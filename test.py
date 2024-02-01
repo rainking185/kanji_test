@@ -41,16 +41,15 @@ if __name__ == '__main__':
             while attempt == "" or (detail["type"] == "mcq" and attempt not in [*"1234"]):
                 attempt = input()
             detail["attempt"] += 1
-            detail["attempts_logs"].append(datetime.today().strftime('%Y/%m/%d'))
             if detail["type"] == "mcq":
                 attempt = options[int(attempt) - 1]
             if attempt in answers:
                 score += 1
-                detail["last_false"] = False
+                detail["attempt_logs"].append([datetime.today().strftime('%Y/%m/%d'), True])
                 print("正解！")
             else:
                 detail["false"] += 1
-                detail["last_false"] = True
+                detail["attempt_logs"].append([datetime.today().strftime('%Y/%m/%d'), False])
                 wrong_questions.append(question)
                 print(f"違います。正解は\"{answers_display}\"です。")
 

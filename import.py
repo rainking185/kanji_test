@@ -25,8 +25,7 @@ def prepare_data(data: list, batch="", has_heading=True) -> dict:
                     "tags": [batch],
                     "attempt": 0,
                     "false": 0,
-                    "attempts_logs": [],
-                    "last_false": False
+                    "attempt_logs": []
                 }
         else:
             vocabs = row[3:]
@@ -42,8 +41,7 @@ def prepare_data(data: list, batch="", has_heading=True) -> dict:
                         "tags": [batch],
                         "attempt": 0,
                         "false": 0,
-                        "attempts_logs": [],
-                        "last_false": False
+                        "attempt_logs": []
                     }
     return all_questions
 
@@ -65,8 +63,7 @@ def import_jlpt(filepath: str):
             "tags": row[6:],
             "attempt": 0,
             "false": 0,
-            "attempts_logs": [],
-            "last_false": False
+            "attempt_logs": []
         }
     merge_questions(all_questions, jlpt=True)
 
