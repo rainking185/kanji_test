@@ -70,6 +70,6 @@ def import_jlpt(filepath: str):
 
 if __name__ == "__main__":
     # import_kanji(sys.argv[1])
-    import_jlpt("jlpt_n4_kanji.csv")
-    import_jlpt("jlpt_n4_grammar.csv")
-    import_jlpt("jlpt_n4_vocab.csv")
+    import_jlpt("jlpt_n3_kanji.csv")
+    import_jlpt("jlpt_n3_grammar.csv")
+    import_jlpt("jlpt_n3_vocab.csv")
