@@ -1,4 +1,5 @@
 import os
+from random import randint
 from datetime import datetime
 from json_utils import read_json, write_json, shuffle_json
 
@@ -25,7 +26,7 @@ def split_old_questions_with_threshold(questions: dict, jlpt=False) -> (dict, di
         [last_attempt_date, last_true] = last_attempt
         day_diff = (datetime.today() - datetime.strptime(last_attempt_date, "%Y/%m/%d")).days
         if questions[_id]["attempt"] >= pow(2 if jlpt else 3, questions[_id]["false"] + 1) or (rate <= THRESHOLD and last_true and (
-                day_diff < questions[_id]["attempt"] * 60 if jlpt else day_diff < pow(questions[_id]["attempt"], 2))):
+                day_diff < questions[_id]["attempt"] * 58 + randint(0, 4) if jlpt else day_diff <= pow(questions[_id]["attempt"], 2))):
             under_threshold[_id] = questions[_id]
         else:
             over_threshold[_id] = questions[_id]

@@ -45,6 +45,8 @@ for row in table[1:]:
     kinshi = ""
     ikou = ""
     ukemi = ""
+    shieki = ""
+    ba = ""
     # 動詞のグルーピング
     if not word.endswith(HIRAGANA):
         group = "3-外来語"
@@ -89,6 +91,8 @@ for row in table[1:]:
         else:
             print(f"て形グループ１：{word} is not considered")
         ukemi = f"{nai[:-2]}れる"
+        shieki = f"{nai[:-2]}せる"
+        ba = f"{word[:-1]}{E_DAN[U_DAN.index(ending)]}ば"
     elif group.startswith("2"):
         masu = f"{word[:-1]}ます"
         nai = f"{word[:-1]}ない"
@@ -96,6 +100,8 @@ for row in table[1:]:
         cmd = f"{word[:-1]}ろ"
         ikou = f"{word[:-1]}よう"
         ukemi = f"{nai[:-2]}られる"
+        shieki = f"{nai[:-2]}させる"
+        ba = f"{word[:-1]}れば"
     elif group.startswith("3"):
         if group == "3-外来語":
             masu = f"{word}します"
@@ -105,6 +111,8 @@ for row in table[1:]:
             kinshi = f"{word}するな"
             ikou = f"{word}しよう"
             ukemi = f"{word}される"
+            shieki = f"{word}させる"
+            ba = f"{word}すれば"
         elif group == "3-特例":
             masu = "きます"
             nai = "こない"
@@ -113,6 +121,8 @@ for row in table[1:]:
             kinshi = "くるな"
             ikou = "こよう"
             ukemi = "こられる"
+            shieki = "こさせる"
+            ba = "くれば"
     else:
         print(f"活用形の転換：{word} is not considered")
     if te[-1] == "て":
@@ -129,4 +139,6 @@ for row in table[1:]:
     row[INDICES["ない形"]] = nai
     row[INDICES["意向形"]] = ikou
     row[INDICES["受身動詞"]] = ukemi
+    row[INDICES["使役動詞"]] = shieki
+    row[INDICES["条件形"]] = ba
 write_csv("verbs_filled.csv", table, encoding="utf-8-sig")

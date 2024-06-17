@@ -11,13 +11,13 @@ HIRAGANA_AND_NUMBERS = A_DAN + I_DAN + U_DAN + E_DAN + O_DAN + ["ん"] + [*"0123
 # data = read_csv("jlpt_grammar.csv", encoding="utf-8-sig")
 # data = [[r[3], r[2]] for r in data[1:] if "\n" in r[2]]
 
-# data = read_csv("jlpt_vocab.csv", encoding="utf-8-sig")
-# data = [[r[3], r[2]] for r in data[1:] if "\n" in r[2]]
+data = read_csv("jlpt_vocab.csv", encoding="utf-8-sig")
+data = [[r[3], r[2]] for r in data[1:] if "\n" in r[2]]
 
-data = read_csv("jlpt_kanji.csv", encoding="utf-8-sig")
-data = [[r[2], r[4], r[5]] for r in data[1:] if "\n" in r[4] or r[5] != ""]
+# data = read_csv("jlpt_kanji.csv", encoding="utf-8-sig")
+# data = [[r[2], r[4], r[5]] for r in data[1:] if "\n" in r[4] or r[5] != ""]
 
-_type = "kanji"  # goi | grammar | kanji
+_type = "goi"  # goi | grammar | kanji
 
 questions = {}
 
@@ -37,7 +37,10 @@ def get_question_id(p: str, t: str) -> str:
 def process_answer(p: str, t: str):
     for r in t.split("\n"):
         num = r.split(": ")[0].split()[1]
-        ans = int(r.split(": ")[1]) - 1
+        try:
+            ans = int(r.split(": ")[1]) - 1
+        except ValueError:
+            ans = int(r.split(": ")[1][0]) - 1
         questions[f"{get_page_id(p)}-{num}"]["answer"] = [questions[f"{get_page_id(p)}-{num}"]["options"][ans]]
 
 
@@ -92,4 +95,4 @@ if __name__ == "__main__":
             process_question(_type, question_id, text, underline)
     export = [[value["question"]] + value["options"] + value["answer"] + [value["type"], value["level"], value["id"]]
               for value in questions.values()]
-    write_csv("jlpt_n3_kanji.csv", export, encoding="utf-8-sig")
+    write_csv("jlpt_n2_vocab.csv", export, encoding="utf-8-sig")
