@@ -107054,5 +107054,233 @@
     "attempt": 0,
     "false": 0,
     "attempt_logs": []
+  },
+  "'臓器'の'臓'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'内臓'の'臓'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'心臓'の'臓'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'造船'の'造'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'造花'の'造'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'構造'の'造'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'造る'の'造'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "つく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'乾燥'の'燥'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "そう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'高燥'の'燥'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "そう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'法則'の'則'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "そく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'鉄則'の'則'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "そく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'変則'の'則'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "そく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'憎悪'の'憎'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'愛憎'の'憎'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "ぞう"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'憎む'の'憎'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "にく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'憎い'の'憎'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "にく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'憎さ'の'憎'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "にく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'憎らしい'の'憎'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "にく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
+  },
+  "'憎しみ'の'憎'の仮名は何ですか？": {
+    "type": "answer",
+    "answers": [
+      "にく"
+    ],
+    "tags": [
+      "N2"
+    ],
+    "attempt": 0,
+    "false": 0,
+    "attempt_logs": []
   }
 }
