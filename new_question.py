@@ -3,19 +3,34 @@ from question_utils import add_question
 if __name__ == "__main__":
     end = False
     while not end:
+        # csv = ""
+        # question = ""
+        # res = ""
+        # while csv == "" or len(csv.split(",")) < 4:
+        #     print("CSVを入力してください。")
+        #     csv = input()
+        # csv_split = csv.split(",")
+        # kanji = csv_split[0]
+        # kana = csv_split[2]
+        # vocabs = csv_split[3:]
+        # for vocab in vocabs:
+        #     add_question(f'\'{vocab}\'の\'{kanji}\'の仮名は何ですか？', "answer", [kana], ["N2"])
+        # print("新しい問題の入力が完成しました。")
+
         csv = ""
         question = ""
         res = ""
-        while csv == "" or len(csv.split(",")) < 4:
+        while csv == "" or len(csv.split(",")) < 3:
             print("CSVを入力してください。")
             csv = input()
-        csv_split = csv.split(",")
-        kanji = csv_split[0]
-        kana = csv_split[2]
-        vocabs = csv_split[3:]
-        for vocab in vocabs:
-            add_question(f'\'{vocab}\'の\'{kanji}\'の仮名は何ですか？', "answer", [kana], ["N2"])
+        [question, option_string, answer] = csv.split(",")
+        options = option_string.split(";")
+        if answer not in options:
+            print("正解は選択肢の中ではありません。")
+            continue
+        add_question(question, "mcq", [answer], ["N2", "202407"], True, options)
         print("新しい問題の入力が完成しました。")
+
         # question = ""
         # t = ""
         # answers = []

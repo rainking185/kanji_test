@@ -95,7 +95,7 @@ def get_questions(jlpt=False) -> list:
 
 def merge_questions(imported_questions: dict, jlpt=False):
     global QUESTIONS, JLPT
-    questions = get_questions()
+    questions = get_questions(jlpt)
     for question in imported_questions:
         if question not in questions:
             (QUESTIONS if not jlpt else JLPT)[question] = imported_questions[question]
@@ -112,11 +112,11 @@ def update_questions(selected_questions: dict, jlpt=False):
     write_json(QUESTIONS_FILEPATH if not jlpt else JLPT_FILEPATH, QUESTIONS if not jlpt else JLPT)
 
 
-def add_question(new_question: str, t: str, answers: list, tags: list):
-    global QUESTIONS
-    questions = get_questions()
+def add_question(new_question: str, t: str, answers: list, tags: list, jlpt=False, options=[]):
+    global QUESTIONS, JLPT
+    questions = get_questions(jlpt)
     if new_question not in questions:
-        QUESTIONS[new_question] = {
+        (QUESTIONS if not jlpt else JLPT)[new_question] = {
             "type": t,
             "answers": answers,
             "tags": tags,
@@ -124,14 +124,16 @@ def add_question(new_question: str, t: str, answers: list, tags: list):
             "false": 0,
             "attempt_logs": []
         }
+        if jlpt:
+            (QUESTIONS if not jlpt else JLPT)[new_question]["options"] = options
     else:
         for tag in tags:
-            if tag not in QUESTIONS[new_question]["tags"]:
-                QUESTIONS[new_question]["tags"].append(tags)
+            if tag not in (QUESTIONS if not jlpt else JLPT)[new_question]["tags"]:
+                (QUESTIONS if not jlpt else JLPT)[new_question]["tags"].append(tags)
         for answer in answers:
-            if answer not in QUESTIONS[new_question]["answers"]:
-                QUESTIONS[new_question]["answers"].append(answer)
-    update_questions(QUESTIONS)
+            if answer not in (QUESTIONS if not jlpt else JLPT)[new_question]["answers"]:
+                (QUESTIONS if not jlpt else JLPT)[new_question]["answers"].append(answer)
+    update_questions(QUESTIONS if not jlpt else JLPT, jlpt)
 
 
 if __name__ == "__main__":
